@@ -142,13 +142,42 @@ def userProjects():
 
     close_tab = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-User-get_api_User_projects']/div[1]/button[1]")))
     close_tab.click()
-    time.sleep(2)
 
     if status_num == 200:
         print("API call successful (Status 200) for /api/User/Projects\n")
         return 200
     elif status_num == 401:
         print("Unauthorized access (Status 401) for /api/User/Projects\n")
+        return 401
+    else:
+        print("Error")
+
+def userSummary():
+    open_tab_button = wait.until(EC.element_to_be_clickable((By.ID, "operations-User-get_api_User_summary")))
+    open_tab_button.click()
+
+    try_it_out_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Try it out')]")))
+    try_it_out_button.click()
+
+    execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
+    execute_button.click()
+
+    status_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "tr.response")))
+    
+    status_text = status_element.get_attribute('textContent')
+    #print(status_text)
+    #print 200
+    print("Status for user details: " + status_text[0:3])
+    status_num = int(status_text[0:3])
+
+    close_tab = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-User-get_api_User_summary']/div/button[1]")))
+    close_tab.click()
+
+    if status_num == 200:
+        print("API call successful (Status 200) for /api/User/summary\n")
+        return 200
+    elif status_num == 401:
+        print("Unauthorized access (Status 401) for /api/User/summary\n")
         return 401
     else:
         print("Error")
@@ -211,11 +240,12 @@ try:
     except Exception as e:
         print("Authorization was not granted")
 
-    #prints the 200 or 401 status of each user field
+    #prints the 200 or 401 status of each user field; 200 is good, 401 is bad
     userDetailsNum = userDetails()
     userDocsNum = userDocs()
     userProfileNum = userProfile()
     userProjectsNum = userProjects()
+    userSummaryNum = userSummary()
     
 
 finally:
