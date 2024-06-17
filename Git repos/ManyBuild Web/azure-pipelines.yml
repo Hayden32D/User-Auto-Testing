@@ -14,16 +14,8 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install selenium pyperclip
-  displayName: 'Install dependencies'
-
-- script: |
-    # Download ChromeDriver
-    CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-    wget -q --continue -P /tmp https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-    unzip /tmp/chromedriver_linux64.zip -d /tmp
-    sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
-    sudo chmod +x /usr/local/bin/chromedriver
-  displayName: 'Install ChromeDriver'
+    pip --version
+  displayName: 'Verify dependencies'
 
 - script: |
     # Verify ChromeDriver installation
@@ -31,6 +23,16 @@ steps:
   displayName: 'Verify ChromeDriver'
 
 - script: |
-    python main.py  # Adjust path and working directory as needed
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
+    # Check Chrome version
+    google-chrome --version
+  displayName: 'Check Chrome version'
+
+- script: |
+    # Debug: List directories to understand the structure
+    ls -R $(Build.SourcesDirectory)
+  displayName: 'List directories for debugging'
+
+- script: |
+    python mainV2.py 
+  workingDirectory: '$(Build.SourcesDirectory)'
   displayName: 'Run Python script'
