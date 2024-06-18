@@ -40,7 +40,7 @@ try:
     text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
 
     text_field.clear()
-    text_to_write = '{"userName": "cmoretti+creator9@method-automation.com", "password": "Bluestone1!"}'
+    text_to_write = '{"userName": "cmoretti+creator9@method-automation.com", "password": "*******!"}'
     text_field.send_keys(text_to_write)
 
     print("Text written to the text field: ", text_to_write)
