@@ -926,7 +926,7 @@ def userTests():
             time.sleep(1)
             text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
             text_field.clear()
-            text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
+            text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "*******"}'
             text_field.send_keys(text_to_write)
             #print("Text written to the text field: ", text_to_write)
 
