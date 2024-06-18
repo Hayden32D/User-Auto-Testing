@@ -42,7 +42,7 @@ def runProfile():
         time.sleep(1)
         text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
         text_field.clear()
-        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "*******"}'
+        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
         text_field.send_keys(text_to_write)
         #print("Text written to the text field: ", text_to_write)
 
@@ -224,17 +224,69 @@ def runProfile():
         else:
             print("Unexpected status code: ", status_num)
             return status_num
+        
+    def profileID():
+        # Open the tab for the Profile disciplines API
+        open_tab_button = wait.until(EC.element_to_be_clickable((By.ID, "operations-Profile-get_api_Profile__id_")))
+        open_tab_button.click()
+
+        # Click the "Try it out" button
+        try_it_out_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Try it out')]")))
+        try_it_out_button.click()
+
+        # Enter the user ID
+        text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
+        text_field.send_keys(globalVars.id)
+
+        # Click the "Execute" button
+        execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[2]/div/div[2]/button[1]")))
+        execute_button.click()
+
+        # Wait for the response status code
+        status_element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr/td[1]")))
+        status_text = status_element.get_attribute('textContent')
+
+        # Print the status for debugging
+        print("Status for user details: " + status_text[0:3])
+        status_num = int(status_text[0:3])
+
+        # Close the API tab
+        close_tab = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[1]/button[1]")))
+        close_tab.click()
+
+        # Return the status number
+        if status_num == 200:
+            print("API call successful (Status 200) for /api/Profile/{id}\n")
+            return 200
+        elif status_num == 401:
+            print("Unauthorized access (Status 401) for /api/Profile/{id}\n")
+            return 401
+        elif status_num == 400:
+            print("Bad request (Status 400) for /api/Profile/{id}\n")
+            return 400
+        elif status_num == 500:
+            print("Internal server error (Status 500) for /api/Profile/{id}\n")
+            return 500
+        else:
+            print("Unexpected status code: ", status_num)
+            return status_num
 
 
     try:
         driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html")
         # Wait for the page to load completely
-        time.sleep(5)
+        time.sleep(3)
         # Run the profile disciplines test
         authorize()
         profileDisciplinesNum = profileDisciplines()
         profileProgressNum = profileProgress()
         profileValidationNum = profileValidation()
+        profileIDNum = profileID()
+
+        if (profileDisciplinesNum == 200) and (profileProgressNum == 200) and (profileValidationNum == 200) and (profileIDNum == 200):
+            print("All tests passed!")
+        else:
+            print("One or more tests failed!")
 
     except Exception as e:
         print(f"An error occurred: {e}")
