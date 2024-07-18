@@ -3,28 +3,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os
 import newFileOpen
 import globalVars
 import time
 
-def userTests():
-    # Get the Chrome WebDriver path from an environment variable
-    chrome_driver_path = os.getenv('CHROME_DRIVER_PATH', r'C:/webdrivers/chromedriver.exe')
-
-    # Check if the path to ChromeDriver is valid
-    if not os.path.isfile(chrome_driver_path):
-        raise FileNotFoundError(f"ChromeDriver not found at {chrome_driver_path}")
-
-    # Set up Chrome WebDriver options
-    chrome_options = webdriver.ChromeOptions()
-    #chrome_options.add_argument('--headless')  # Uncomment for headless mode
-    chrome_options.add_argument('--start-maximized')
-
-    # Create a new instance of Chrome WebDriver
-    service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
+def userTests(driver):
 
     #user methods
     #user details
@@ -239,7 +222,7 @@ def userTests():
         try_it_out_button.click()
 
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-User-get_api_User_usertoolimages__UserID_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.user_id)
+        text_field.send_keys(globalVars.USER_ID)
 
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
         execute_button.click()
@@ -640,7 +623,7 @@ def userTests():
         try_it_out_button.click()
 
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-User-get_api_User_usercorpdocuments__UserID_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.user_id)
+        text_field.send_keys(globalVars.USER_ID)
 
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
         execute_button.click()
@@ -709,7 +692,7 @@ def userTests():
         try_it_out_button.click()
 
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-User-get_api_User_userprevwork__UserID_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.user_id)
+        text_field.send_keys(globalVars.USER_ID)
 
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
         execute_button.click()
@@ -811,7 +794,7 @@ def userTests():
         try_it_out_button.click()
 
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-User-get_api_User_Online__userid_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.user_id)
+        text_field.send_keys(globalVars.USER_ID)
 
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
         execute_button.click()
@@ -828,13 +811,13 @@ def userTests():
         close_tab.click()
 
         if status_num == 200:
-            print("API call successful (Status 200) for /api/User/userprevwork/ID\n")
+            print("API call successful (Status 200) for /api/User/Online\n")
             return 200
         elif status_num == 401:
-            print("Unauthorized access (Status 401) for /api/User/userprevwork/ID\n")
+            print("Unauthorized access (Status 401) for /api/User/Online\n")
             return 401
         elif status_num == 400:
-            print("Bad request (Status 400) for /api/User/userprevwork/ID\n")
+            print("Bad request (Status 400) for /api/User/Online\n")
             return 400
         else:
             print("Error")
@@ -908,10 +891,10 @@ def userTests():
 
     try:
         # Navigate to the Swagger UI
-        driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html") #uncomment to run on own
+        #driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html") #uncomment to run on own
 
         # Wait for the Swagger UI element to be present
-        wait = WebDriverWait(driver, 5)  # Adjust timeout as needed
+        wait = WebDriverWait(driver, 15)  # Adjust timeout as needed
         def authorize():
             # Click the login button
             time.sleep(1)
@@ -926,7 +909,7 @@ def userTests():
             time.sleep(1)
             text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
             text_field.clear()
-            text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "*******"}'
+            text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
             text_field.send_keys(text_to_write)
             #print("Text written to the text field: ", text_to_write)
 
@@ -968,7 +951,7 @@ def userTests():
                 print("Authorization was not granted")
                 SystemExit()
 
-        authorize()
+        #authorize()
         #prints the 200 or 401 status of each user field; 200 is good, 401 is bad
         userDetailsNum = userDetails()
         userDocsNum = userDocs()

@@ -9,23 +9,9 @@ import newFileOpen
 import globalVars
 
 
-def runProfile():
-    chrome_driver_path = os.getenv('CHROME_DRIVER_PATH', r'C:/webdrivers/chromedriver.exe')
+def runProfile(driver):
 
-    # Check if the path to ChromeDriver is valid
-    if not os.path.isfile(chrome_driver_path):
-        raise FileNotFoundError(f"ChromeDriver not found at {chrome_driver_path}")
-
-    # Set up Chrome WebDriver options
-    chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument('--headless')  # Uncomment for headless mode
-    chrome_options.add_argument('--start-maximized')
-
-    # Create a new instance of Chrome WebDriver
-    service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 15)
 
 
     def authorize():
@@ -42,7 +28,7 @@ def runProfile():
         time.sleep(1)
         text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
         text_field.clear()
-        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "****@32D"}'
+        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
         text_field.send_keys(text_to_write)
         #print("Text written to the text field: ", text_to_write)
 
@@ -96,7 +82,7 @@ def runProfile():
 
         # Enter the user ID
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__UserID__disciplines']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.user_id)
+        text_field.send_keys(globalVars.USER_ID)
 
         # Click the "Execute" button
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__UserID__disciplines']/div[2]/div/div[2]/button[1]")))
@@ -143,7 +129,7 @@ def runProfile():
 
         # Enter the user ID
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id__progress']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.id)
+        text_field.send_keys(globalVars.ID)
 
         # Click the "Execute" button
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id__progress']/div[2]/div/div[2]/button[1]")))
@@ -190,7 +176,7 @@ def runProfile():
 
         # Enter the user ID
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id__validation']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.id)
+        text_field.send_keys(globalVars.ID)
 
         # Click the "Execute" button
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id__validation']/div[2]/div/div[2]/button[1]")))
@@ -236,7 +222,7 @@ def runProfile():
 
         # Enter the user ID
         text_field = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input")))
-        text_field.send_keys(globalVars.id)
+        text_field.send_keys(globalVars.ID)
 
         # Click the "Execute" button
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Profile-get_api_Profile__id_']/div[2]/div/div[2]/button[1]")))
@@ -273,11 +259,11 @@ def runProfile():
 
 
     try:
-        driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html")
+        #driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html")
         # Wait for the page to load completely
-        time.sleep(3)
+        time.sleep(2)
         # Run the profile disciplines test
-        authorize()
+        #authorize()
         profileDisciplinesNum = profileDisciplines()
         profileProgressNum = profileProgress()
         profileValidationNum = profileValidation()
@@ -290,8 +276,4 @@ def runProfile():
 
     except Exception as e:
         print(f"An error occurred: {e}")
-    finally:
-        # Close the browser
-        if 'driver' in locals():
-            driver.quit()
 

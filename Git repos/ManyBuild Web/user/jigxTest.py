@@ -1,70 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+import newFileOpen
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os
-import newFileOpen
-import globalVars
 import time
 
-def runJigTest():
+def runJigTest(driver):
 
-    def authorize():
-        # Click the login button
-        time.sleep(1)
-        login_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.opblock-summary-control")))
-        login_button.click()
-
-        # Click the "Try it out" button
-        try_it_out_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Try it out')]")))
-        try_it_out_button.click()
-
-        # Enter login details
-        time.sleep(1)
-        text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
-        text_field.clear()
-        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
-        text_field.send_keys(text_to_write)
-        #print("Text written to the text field: ", text_to_write)
-
-        # Execute login
-        execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
-        execute_button.click()
-
-        # Wait for the response
-        time.sleep(.5)
-        download = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.download-contents")))
-        download.click()
-
-        # Open the new file to get the key
-        key = newFileOpen.openNewFile()
-        #print(key)
-
-        # Authorize with the obtained key
-        authorize_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.authorize.unlocked")))
-        authorize_button.click()
-
-        time.sleep(1)
-        key_input_field = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input")))
-        key_input_field.send_keys("Bearer " + key)
-
-        final_press_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn.modal-btn.auth.authorize.button")))
-        final_press_button.click()
-
-        # Check if authorization was successful
-        try:
-            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "button.btn.authorize.locked")))
-
-            close = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button.btn.modal-btn.auth.btn-done.button")))
-            close.click()
-
-            close_open_tab = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.opblock-summary-control")))
-            close_open_tab.click()
-            time.sleep(2)
-        except Exception as e:
-            print("Authorization was not granted")
-            SystemExit()
+    wait = WebDriverWait(driver, 15)
 
     def jigxForm():
         # Open the tab for the Profile disciplines API
@@ -74,7 +16,6 @@ def runJigTest():
         # Click the "Try it out" button
         try_it_out_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Try it out')]")))
         try_it_out_button.click()
-
 
         # Click the "Execute" button
         execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='operations-Jigx-get_api_Jigx_Form']/div[2]/div/div[2]/button[1]")))
@@ -109,38 +50,14 @@ def runJigTest():
             print("Unexpected status code: ", status_num)
             return status_num
 
-    chrome_driver_path = os.getenv('CHROME_DRIVER_PATH', r'C:/webdrivers/chromedriver.exe')
-
-    # Check if the path to ChromeDriver is valid
-    if not os.path.isfile(chrome_driver_path):
-        raise FileNotFoundError(f"ChromeDriver not found at {chrome_driver_path}")
-
-    # Set up Chrome WebDriver options
-    chrome_options = webdriver.ChromeOptions()
-    #chrome_options.add_argument('--headless')  # Uncomment for headless mode
-    chrome_options.add_argument('--start-maximized')
-
-    # Create a new instance of Chrome WebDriver
-    service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    wait = WebDriverWait(driver, 5)
-
     try:
-        driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html")
-        # Wait for the page to load completely
-        time.sleep(2)
         # Run the profile disciplines test
-        authorize()
         jigxFormNum = jigxForm()
 
-        if jigxFormNum == 200: #TO-DO
+        if jigxFormNum == 200: # TO-DO
             print("All tests passed!")
         else:
             print("One or more tests failed!")
 
     except Exception as e:
         print(f"An error occurred: {e}")
-    finally:
-        # Close the browser
-        if 'driver' in locals():
-            driver.quit()
