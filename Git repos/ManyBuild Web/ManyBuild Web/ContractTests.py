@@ -7,7 +7,7 @@ import newFileOpen
 import globalVars
 
 def contract_tests_runner(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def contractID():
         try:
@@ -47,6 +47,9 @@ def contract_tests_runner(driver):
             elif status_num == 400:
                 print("Bad request (Status 400) for /api/Contract/get/{contract_id}\n")
                 return 400
+            elif status_num == 500:
+                print("Bad request (Status 500) for /api/Contract/get/{contract_id}\n")
+                return 500
             else:
                 print("Error")
 
@@ -90,6 +93,9 @@ def contract_tests_runner(driver):
             elif status_num == 400:
                 print("Bad request (Status 400) for /api/Contract/get/{contract_id}/html\n")
                 return 400
+            elif status_num == 500:
+                print("Bad request (Status 500) for /api/Contract/get/{contract_id}/html\n")
+                return 500
             else:
                 print("Error")
 

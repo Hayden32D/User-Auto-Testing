@@ -11,7 +11,7 @@ import globalVars
 
 def runProfile(driver):
 
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 15)
 
 
     def authorize():

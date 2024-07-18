@@ -7,7 +7,7 @@ import newFileOpen
 import globalVars
 
 def change_order_runner(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def change_orderID():
         try:
@@ -47,6 +47,9 @@ def change_order_runner(driver):
             elif status_num == 400:
                 print("Bad request (Status 400) for /api/ChangeOrder/{ID}\n")
                 return 400
+            elif status_num == 500:
+                print("Bad request (Status 500) for /api/ChangeOrder/{ID}\n")
+                return 500
             else:
                 print("Error")
 
@@ -83,14 +86,17 @@ def change_order_runner(driver):
             close_tab.click()
 
             if status_num == 200:
-                print("API call successful (Status 200) for /api/User/{UserID}/Job/{jobID}\n")
+                print("API call successful (Status 200) for /api/ChangeOrder/User/{UserID}/Job/{jobID}\n")
                 return 200
             elif status_num == 401:
-                print("Unauthorized access (Status 401) for /api/User/{UserID}/Job/{jobID}\n")
+                print("Unauthorized access (Status 401) for /api/ChangeOrder/User/{UserID}/Job/{jobID}\n")
                 return 401
             elif status_num == 400:
-                print("Bad request (Status 400) for /api/User/{UserID}/Job/{jobID}\n")
+                print("Bad request (Status 400) for /api/User/ChangeOrder/{UserID}/Job/{jobID}\n")
                 return 400
+            elif status_num == 500:
+                print("Bad request (Status 500) for /api/User/ChangeOrder/{UserID}/Job/{jobID}\n")
+                return 500
             else:
                 print("Error")
 

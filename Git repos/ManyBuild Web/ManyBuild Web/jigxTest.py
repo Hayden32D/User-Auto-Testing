@@ -6,7 +6,7 @@ import time
 
 def runJigTest(driver):
 
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def jigxForm():
         # Open the tab for the Profile disciplines API

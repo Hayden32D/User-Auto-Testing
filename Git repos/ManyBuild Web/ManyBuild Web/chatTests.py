@@ -12,7 +12,7 @@ import time
 def chatGET_Tests(driver):
     #chat methods
     #chat GETs
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 15)
     def chat():
         try:
             open_tab_button = wait.until(EC.element_to_be_clickable((By.ID, "operations-Chat-get_api_Chat")))

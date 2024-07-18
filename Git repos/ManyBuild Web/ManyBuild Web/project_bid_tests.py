@@ -9,7 +9,7 @@ import newFileOpen
 import globalVars
 
 def project_bid_runner(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def project_test_1():
         try:
@@ -61,7 +61,7 @@ def project_bid_runner(driver):
             try_it_out_button.click()
 
             text_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="operations-ProjectBid-get_api_ProjectBid__id_"]/div[2]/div/div[1]/div[2]/div/table/tbody/tr/td[2]/input')))
-            text_field.send_keys(globalVars.BID_ID)
+            text_field.send_keys(globalVars.PROJ_BID_ID)
 
             execute_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Execute')]")))
             execute_button.click()

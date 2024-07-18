@@ -9,7 +9,7 @@ import newFileOpen
 import globalVars
 
 def doc_runner(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def doc_test_1():
         try:

@@ -894,7 +894,7 @@ def userTests(driver):
         #driver.get("https://wsmanybuild.azurewebsites.net/Swagger/index.html") #uncomment to run on own
 
         # Wait for the Swagger UI element to be present
-        wait = WebDriverWait(driver, 5)  # Adjust timeout as needed
+        wait = WebDriverWait(driver, 20)  # Adjust timeout as needed
         def authorize():
             # Click the login button
             time.sleep(1)
@@ -909,7 +909,7 @@ def userTests(driver):
             time.sleep(1)
             text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
             text_field.clear()
-            text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "########"}'
+            text_to_write = ''
             text_field.send_keys(text_to_write)
             #print("Text written to the text field: ", text_to_write)
 

@@ -7,7 +7,7 @@ import newFileOpen
 import globalVars
 
 def bidTestsRunner(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 15)
 
     def listBids():
         try:

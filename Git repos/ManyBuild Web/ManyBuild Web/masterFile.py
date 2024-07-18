@@ -14,9 +14,11 @@ import document_tests
 import milestoneTests
 import termsheetTest
 import transactionTest
-import JobTests
+import jobTests
+import projectTests
+import projectJobTests
+import supportTests
 
-#import keyboard
 import time
 import newFileOpen
 from selenium import webdriver
@@ -55,7 +57,7 @@ def authorize(driver, timeout=15):
         # Enter login details
         text_field = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[class*='body-param']")))
         text_field.clear()
-        text_to_write = '{"userName": "HDouglas+doer1@method-automation.com", "password": "Poohbear@32D"}'
+        text_to_write = '{"userName": "HDouglas+creator1@method-automation.com", "password": "Poohbear@32D"}'
         text_field.send_keys(text_to_write)
 
         # Execute login
@@ -109,95 +111,120 @@ try:
     if authorize(driver):
         print("Authorization successful, running tests...")
         # Run the tests for the user GETs
-        '''
+        
         try:
-            userForHomeComputer.userTests(driver)  # Pass the driver instance
+            userCheck = userForHomeComputer.userTests(driver)  # Pass the driver instance
         except Exception as e:
             print(f"An error occurred during userForHomeComputer.userTests: {e}")
 
         # Run profile tests
         try:
-            profileTests.runProfile(driver)  # Pass the driver instance
+            profileCheck = profileTests.runProfile(driver)  # Pass the driver instance
         except Exception as e:
             print(f"An error occurred during profileTests.runProfile: {e}")
         
         # Run jigx get test
         try:
-            jigxTest.runJigTest(driver)  # Pass the driver instance
+            jixCheck = jigxTest.runJigTest(driver)  # Pass the driver instance
         except Exception as e:
             print(f"An error occurred during jigxTest.runJigTest: {e}")
 
         try:
-            chatTests.chatGET_Tests(driver)  # Pass the driver instance
+            chatCheck = chatTests.chatGET_Tests(driver)  # Pass the driver instance
         except Exception as e:
             print(f"An error occurred during chatTests.chatGET_Tests: {e}")
 
         try:    
-            lookupTests.lookupTests(driver)  # Pass the driver instance
+            lookupCheck = lookupTests.lookupTests(driver)  # Pass the driver instance
         except Exception as e:
             print(f"An error occurred during lookupTests.lookupTests: {e}")
-        
+
         try:
-            healthTests.healthTestRun(driver)
+            healthCheck = healthTests.healthTestRun(driver)
         except Exception as e:
             print(f"An error occurred during healthTests.healthTestRun: {e}")
 
         try:
-            BidTests.bidTestsRunner(driver)
+            BidCheck = BidTests.bidTestsRunner(driver)
         except Exception as e:
             print(f"An error occurred during BidTests.bidTestsRunner: {e}")
             
         try:
-            changeOrderTests.change_order_runner(driver)
+            changeOrderCheck = changeOrderTests.change_order_runner(driver)
         except Exception as e:
             print(f"An error occurred during changeOrderTests.change_order_runner: {e}")
 
         try:
-            ContractTests.contract_tests_runner(driver)
+            contractCheck = ContractTests.contract_tests_runner(driver)
         except Exception as e:
             print(f"An error occurred during ContractTests.contract_tests_runner: {e}")
 
         try:
-            DealAnalyzerTests.DealRunner(driver)
+            dealACheck = DealAnalyzerTests.DealRunner(driver)
         except Exception as e:
             print(f"An error occurred during DealAnalyzerTests.DealRunner: {e}")
 
         try:
-            Discipline.Disicpline_runner(driver)
+            disciplineCheck = Discipline.Disicpline_runner(driver)
         except Exception as e:
             print(f"An error occurred during Discipline.discipline_runner: {e}")
 
         try:
-            project_bid_tests.project_bid_runner(driver)
+            pbCheck = project_bid_tests.project_bid_runner(driver)
         except Exception as e:
             print(f"An error occurred during project_bid_tests.project_bid_runner: {e}")
-    
+        
         try:
-            document_tests.doc_runner(driver)
+            docCheck = document_tests.doc_runner(driver)
         except Exception as e:
             print(f"An error occurred during document_tests.doc_runner: {e}")
 
         try:
-            milestoneTests.milestone_runner(driver)
+            milestoneCheck = milestoneTests.milestone_runner(driver)
         except Exception as e:
             print(f"An error occurred during milestoneTests.milestone_runner")
 
         try:
-            termsheetTest.terms_runner(driver)
+            termsheetCheck = termsheetTest.terms_runner(driver)
         except Exception as e:
             print(f"An error occurred during termsheetTest.terms_runner")
         
-
         try:
-            transactionTest.transaction_runner(driver)
+            transactionCheck = transactionTest.transaction_runner(driver)
         except Exception as e:
             print(f"An error occurred during transactionTest.transaction_runner")
-        '''
+        
         try:
-            JobTests.Job_runner(driver)
+            jobCheck = jobTests.Job_runner(driver)
         except Exception as e:
             print(f"An error occurred during JobTests.Job_runner")
+
+        try:
+            projectTests.project_runner(driver)
+        except Exception as e:
+            print(f"An error occurred during projectTests.project_runner")
+
+        try:
+            projectJobTests.project_job_runner(driver)
+        except Exception as e:
+            print(f"An error occurred during projectJobTests.project_job_runner")
+
+        try:
+            supportTests.support_runner(driver)
+        except Exception as e:
+            print(f"An error occurred during supportTests.support_runner")
+
+
+        '''
+        #Use for next version
+
+        if(userCheck == 200 and profileCheck == 200 and jixCheck == 200 and chatCheck == 200 and lookupCheck == 200 and healthCheck == 200 and BidCheck == 200 and changeOrderCheck == 200 and contractCheck == 200 and dealACheck == 200 and disciplineCheck == 200 and pbCheck == 200 and docCheck == 200 and milestoneCheck == 200 and termsheetCheck == 200 and transactionCheck == 200 and jobCheck == 200):
+            print("All tests passed")
+        else:
+            print("Some tests failed, rerun or fix code before deployment")
         
+        '''
+
 
     else:
         print("Authorization failed, tests will not be run.")

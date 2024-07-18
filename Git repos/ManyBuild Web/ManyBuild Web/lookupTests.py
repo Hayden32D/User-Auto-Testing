@@ -11,7 +11,7 @@ import time
 
 def lookupTests(driver):
 
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 15)
     def documentTypes():
         try:
             open_tab_button = wait.until(EC.element_to_be_clickable((By.ID, "operations-Lookup-get_api_Lookup_DocumentTypes")))
