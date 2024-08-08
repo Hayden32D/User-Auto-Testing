@@ -66,8 +66,8 @@ def authorize(driver, timeout=15):
         download = wait.until(EC.element_to_be_clickable((By.CLASS_NAME,"download-contents")))
         download.click()
 
-        #download = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Auth-post_api_Auth_Login']/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr/td[2]/div[1]/div/button")))
-        #download.click()
+        download = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='operations-Auth-post_api_Auth_Login']/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr/td[2]/div[1]/div/button")))
+        download.click()
 
         # Open the new file to get the key
         key = newFileOpen.openNewFile()
