@@ -1,0 +1,40 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+jobs:
+- job: RunPythonScript
+  displayName: 'Run Python Script on MASDT16'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11.4'
+      addToPath: true
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install selenium
+    displayName: 'Install Selenium'
+    # No need to specify shell here, as pip can be run in default shell
+
+  - script: |
+      $ChromeDriverVersion = "114.0.5735.90"
+      $DownloadUrl = "https://chromedriver.storage.googleapis.com/$ChromeDriverVersion/chromedriver_win32.zip"
+      $OutputPath = "$(System.DefaultWorkingDirectory)\chromedriver.zip"
+      $ExtractPath = "$(System.DefaultWorkingDirectory)\chromedriver"
+      Invoke-WebRequest -Uri $DownloadUrl -OutFile $OutputPath
+      Expand-Archive -Path $OutputPath -DestinationPath $ExtractPath
+      Remove-Item $OutputPath
+      $Env:PATH = "$ExtractPath;$Env:PATH"
+    displayName: 'Download and Set Up ChromeDriver'
+
+  - script: |
+      python --version
+      echo "Running masterFile.py"
+      python masterFile.py
+    displayName: 'Run masterFile.py'
+    env:
+      DRIVER_PATH: '$(System.DefaultWorkingDirectory)\chromedriver'
+    # Specify shell as powershell only if needed; otherwise, default to standard script execution
